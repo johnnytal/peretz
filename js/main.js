@@ -16,7 +16,7 @@ gameMain.prototype = {
 		loadSounds();
 
         bg = this.add.image(0, 0, 'bg');
-        bg.alpha = 0.6;
+        bg.alpha = 0.3;
         
         bgPink = this.add.image(0, 0, 'pink');
         bgPink.alpha = 0;
@@ -32,11 +32,21 @@ gameMain.prototype = {
     	soundButton.inputEnabled = true;
 		soundButton.events.onInputDown.add(playSound, this);
 
-    	text = game.add.text(0, 0, 'CONVERT NOW!', {
-        	font: '28px', fill: 'white', align: 'center', stroke:'grey', strokeThickness: 1
+    	textInst = game.add.text(170, 30,  'לחץ על כפתור ההמרה -\n' + 'האזן למלים החמות -' + '\n' + 'קבל את ההחלטה הנכונה -', {
+        	font: '56px', fill: 'black', align: 'center', stroke:'lightgrey', strokeThickness: 1
    		});
+   	
+
+    	textInst = game.add.text(115, 770, 'זכור  - בכל שלב באפשרותך לחזור לשלב 1\nולהמיר שוב', {
+        	font: '40px', fill: 'maroon', align: 'center', stroke:'white', strokeThickness: 1
+   		});
+
+    	text = game.add.text(0, 0, '!המר כעת', {
+        	font: '42px', fill: 'white', align: 'center', stroke:'grey', strokeThickness: 1
+   		});
+   		text.alpha = 0.7;
    		
-   		text.x = soundButton.x + soundButton.width / 2 - text.width / 2;
+   		text.x = soundButton.x + soundButton.width / 2 - text.width / 2 - 5;
    		text.y = soundButton.y + soundButton.height / 2 - text.height / 2;
 	    
         createMusicBtns();
@@ -61,19 +71,12 @@ function soundStopped(){
    soundButton.frame = 0;
    soundButton.tint = 0xffffff;
    
-   text.font = '29px';
+   text.font = '42px';
    text.fill = 'white';
-   text.text = 'CONVERT NOW!';
+   text.text = '!המר כעת';
    
    text.x = soundButton.x + soundButton.width / 2 - text.width / 2;
    text.y = soundButton.y + soundButton.height / 2 - text.height / 2;	
-   
-   	if (bgPink.alpha == 1){
-		game.add.tween(bgPink).to( { alpha: 0 }, sfxPeretz1.durationMS, "Linear", true);
-	}
-	else if(bgPink.alpha == 0){
-		game.add.tween(bgPink).to( { alpha: 1 }, sfxPeretz1.durationMS, "Linear", true);
-	} 
 }
 
 function playSound(){
@@ -87,22 +90,23 @@ function playSound(){
     soundButton.tint = 0xe3dfff;
    
 	
-    text.font = '27px';
+    text.font = '38px';
     text.fill = 'lightgrey';
-    text.text = 'converting...';
+    text.text = '...ממיר';
 	
 	text.x = soundButton.x + soundButton.width / 2 - text.width / 2;
 	text.y = soundButton.y + soundButton.height / 2 - text.height / 2;
 	
-	if (bgPink.alpha == 1){
-		game.add.tween(bgPink).to( { alpha: 0 }, sfxPeretz1.durationMS, "Linear", true);
-	}
-	else if(bgPink.alpha == 0){
-		game.add.tween(bgPink).to( { alpha: 1 }, sfxPeretz1.durationMS, "Linear", true);
-	}
+
 	
 	stopSound = setTimeout(function(){
 		soundStopped();
+		if (bgPink.alpha == 1){
+			game.add.tween(bgPink).to( { alpha: 0 }, 50, "Linear", true);
+		}
+		else if(bgPink.alpha == 0){
+			game.add.tween(bgPink).to( { alpha: 1 }, 50, "Linear", true);
+		}
 	}, sfxPeretz1.durationMS);
 }
 
@@ -133,10 +137,10 @@ function createMusicBtns(){
 	musicBtnsGroup = game.add.physicsGroup(Phaser.Physics.ARCADE);
 	
     for(m = 0; m < MUSIC_BUTTONS_N; m++){
-    	musicButtons[m] = musicBtnsGroup.create(15 + (280 * m), 960, 'musicBtn');
+    	musicButtons[m] = musicBtnsGroup.create(30 + (280 * m), 970, 'musicBtn');
     	musicButtons[m].alpha = 0.85;
     	musicButtons[m].inputEnabled = true;
-    	musicButtons[m].scale.set(1, 0.8);
+    	musicButtons[m].scale.set(0.9, 0.7);
 
     	musicButtons[m].events.onInputDown.add(playMusic, this);        
     }
@@ -150,7 +154,7 @@ function createMusicBtns(){
    		musicText[t].y = musicButtons[t].y + musicButtons[t].height / 2 - musicText[t].height / 2 + 10;
     }
     
-	musicAddText = game.add.text(145, 900, 'ADD CONVERSION MUSIC:', {
+	musicAddText = game.add.text(250, 900, ':הוסף מוזיקת המרה', {
 		font: '48px ' + font, fill: 'black', align: 'center', stroke:'white', strokeThickness: 3
 	});
 }
